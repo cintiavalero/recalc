@@ -27,4 +27,17 @@ describe("History", () => {
         expect(histories[0].result).toEqual(0)
         expect(histories[0].Operation.name).toEqual("SUB")
     })
+    test("Debería guardar el atributo 'error' en el historial", async () => {
+        await createHistoryEntry({
+            firstArg: 10,
+            operationName: "DIV",
+            error: "No se puede dividir por cero"
+        });
+
+        const histories = await History.findAll();
+
+        expect(histories.length).toEqual(1);
+        expect(histories[0].firstArg).toEqual(10);
+        expect(histories[0].error).toEqual("No se puede dividir por cero");
+    })
 })
