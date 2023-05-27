@@ -30,3 +30,15 @@ describe("API multiply", () => {
         expect(res.body.result).toEqual(2.5);
     })
 })
+
+
+describe("API sum", () => {
+    test("Si b es negativo, resultado deber ser menor a a y status 200.", async () => {
+        const app = await api.build()
+
+        const res=await request(app).get('/api/v1/sum/2/-1')
+            .expect(200)
+            .expect('Content-Type', "application/json; charset=utf-8")
+        expect(res.body.result).toBeLessThan(2);
+    });
+});
