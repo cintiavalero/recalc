@@ -42,6 +42,7 @@ router.get("/pow/:a", async function (req, res) {
         res.status(400).send('La base ingresada por parametro no es un numero');
     } else {
         const result = core.pow(a);
+        await createHistoryEntry({ firstArg: a, secondArg: a,result: result , operationName: "POW"})
         return res.send({ result });
     }
 });
