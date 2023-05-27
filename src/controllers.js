@@ -70,6 +70,7 @@ router.get("/sum/:a/:b", async function (req, res) {
         res.status(400).send('Uno de los parámetros no es un número');
     } else {
         const result = core.add(a, b);
+        await createHistoryEntry({ firstArg: a, secondArg: b,result: result, operationName: "ADD"});
         return res.send({ result });
     }
 });
