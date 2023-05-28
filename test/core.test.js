@@ -188,3 +188,11 @@ describe('decimalABinario', () => {
   })
 
 })
+
+
+describe('Sqrt', () => {
+  test('Deberia calcular la raiz cuadrada de 4', () => {
+    expect(core.sqrt(4)).toBe(2);
+  });
+});
+
