@@ -156,3 +156,15 @@ describe("API decimalABinario", () => {
         expect(res.body.result).toEqual("10");
     })
 })
+
+describe("API raiz cuadrada", () => {
+    test("Deberia responder con un 200 ok si se calcula la raiz cuadrada de 16 y dar como resultado 4", async () => {
+        const app = await api.build()
+
+        const res = await request(app).get('/api/v1/sqrt/16')
+            .expect(200)
+            .expect('Content-Type', "application/json; charset=utf-8")
+            
+        expect(res.body.result).toEqual(4);
+    })
+})
