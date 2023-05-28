@@ -180,3 +180,27 @@ describe("API raiz cuadrada", () => {
         expect(res.body.result).toEqual(4);
     })
 })
+
+describe('API history', () => {
+    test('Debe poder obtener una entrada del historial por ID', async () => {
+      const app = await api.build();
+  
+      // Crear una operación en el historial para obtener su ID
+      const createdEntry = await createHistoryEntry({
+        firstArg: 2,
+        secondArg: 2,
+        result: 4,
+        operationName: 'ADD',
+      });
+
+
+      const res = await request(app).get(`/api/v1/history/${createdEntry.dataValues.id}`)
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8');
+
+      expect(res.body.result.firstArg).toEqual(2);
+      expect(res.body.result.secondArg).toEqual(2);
+      expect(res.body.result.result).toEqual(4);
+      expect(res.body.result.OperationId).toEqual(1);
+    });
+  });
