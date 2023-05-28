@@ -82,4 +82,13 @@ router.get("/getHistory",async function(req,res){
     return res.json((historial))
 });
 
+router.delete("/deleteHistory",async function(req,res){
+    try {
+        await deleteAllHistory();
+        res.status(200).send({ message: "Historial eliminado con exito" });
+      } catch (error) {
+        res.status(500).send({ error: "Ocurrio un error al eliminar el historial" });
+      }
+});
+
 export default router;
