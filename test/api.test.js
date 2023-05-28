@@ -1,6 +1,7 @@
 const request = require('supertest');
 const api = require('../src/api.js');
-const { seed } = require('../src/seed.js')
+const { seed } = require('../src/seed.js');
+const { createHistoryEntry } = require('../src/models.js');
 
 beforeEach(async () => {
     await seed()
@@ -66,3 +67,25 @@ describe("API pow", () => {
         expect(res.body).toEqual({ error: 'La base ingresada por parametro no es un numero' });
     })
 })
+
+describe("API getHistory", () => {
+    test("Debería devolver todo el historial", async () => {
+        const app = await api.build();
+
+        await createHistoryEntry({ firstArg: 1, secondArg: 2, operationName: "ADD", result: 5 });
+
+        const res = await request(app)
+            .get('/api/v1/getHistory')
+            .expect(200)
+
+        const historialEsperado = [
+            { firstArg: 1, secondArg: 2,OperationId:1, result: 5 }
+        ];
+
+        expect(res.body[0].firstArg).toEqual(historialEsperado[0].firstArg);
+        expect(res.body[0].secondArg).toEqual(historialEsperado[0].secondArg);
+        expect(res.body[0].OperationId).toEqual(1);
+        expect(res.body[0].result).toEqual(historialEsperado[0].result);
+
+    });
+});
