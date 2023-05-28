@@ -54,13 +54,14 @@ router.get("/div/:a/:b", async function (req, res) {
     const b = Number(params.b);
 
     if (isNaN(a) || isNaN(b)) {
-        res.status(400).send({error:'Uno de los parámetros no es un número'});
+        res.status(400).send('Uno de los parámetros no es un número');
     } else if (b === 0) {
-        res.status(400).send({error:'No se puede dividir por cero'});
+        res.status(400).send('No se puede dividir por cero');
     } else {
         const result = core.div(a, b);
-	return res.send({ result });
-        }
+        await createHistoryEntry({ firstArg: a, secondArg: b, result, operationName: "DIV" });
+        return res.send({ result });
+    }
 });
 
 router.get("/sum/:a/:b", async function (req, res) {
