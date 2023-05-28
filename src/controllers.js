@@ -1,7 +1,7 @@
 import express from 'express';
 import core from './core.js';
 
-import { createHistoryEntry } from './models.js'
+import { createHistoryEntry,getAllHistory } from './models.js'
 
 const router = express.Router();
 
@@ -74,6 +74,12 @@ router.get("/sum/:a/:b", async function (req, res) {
         await createHistoryEntry({ firstArg: a, secondArg: b,result: result, operationName: "ADD"});
         return res.send({ result });
     }
+});
+
+
+router.get("/getHistory",async function(req,res){
+    const historial=await getAllHistory()
+    return res.send(JSON.stringify(historial))
 });
 
 export default router;
