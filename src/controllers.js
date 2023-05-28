@@ -1,7 +1,7 @@
 import express from 'express';
 import core from './core.js';
 
-import { createHistoryEntry,getAllHistory } from './models.js'
+import { createHistoryEntry,getAllHistory,deleteAllHistory } from './models.js'
 
 const router = express.Router();
 
@@ -81,6 +81,7 @@ router.get("/getHistory",async function(req,res){
     const historial=await getAllHistory()
     return res.json((historial))
 });
+
 
 router.delete("/deleteHistory",async function(req,res){
     try {

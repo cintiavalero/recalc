@@ -89,3 +89,38 @@ describe("API getHistory", () => {
 
     });
 });
+
+
+describe("API deleteHistory", () => {
+    test("Debería eliminar todo el historial", async () => {
+        const app = await api.build();
+
+        await createHistoryEntry({ firstArg: 1, secondArg: 2, operationName: "ADD", result: 5 });
+
+        const res = await request(app)
+            .get('/api/v1/getHistory')
+            .expect(200)
+
+        const historialEsperado = [
+            { firstArg: 1, secondArg: 2,OperationId:1, result: 5 }
+        ];
+
+        expect(res.body[0].firstArg).toEqual(historialEsperado[0].firstArg);
+        expect(res.body[0].secondArg).toEqual(historialEsperado[0].secondArg);
+        expect(res.body[0].OperationId).toEqual(1);
+        expect(res.body[0].result).toEqual(historialEsperado[0].result);
+
+        const res1 = await request(app)
+            .delete('/api/v1/deleteHistory')
+            .expect(200);
+
+        expect(res1.body).toEqual({ message: "Historial eliminado con exito" });
+
+
+        const resGetHistory = await request(app)
+            .get('/api/v1/getHistory')
+            .expect(200);
+
+        expect(resGetHistory.body).toEqual([]); 
+    }); 
+})
