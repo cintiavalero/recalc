@@ -123,4 +123,36 @@ describe("API deleteHistory", () => {
 
         expect(resGetHistory.body).toEqual([]); 
     }); 
+});
+
+
+describe("API decimalABinario", () => {
+    test("Deberia responder con un status 200 si como argumento se recibe por parametro un valor numerico", async () => {
+        const app = await api.build()
+
+        const res=await request(app).get('/api/v1/bin/2')
+            .expect(200)
+            .expect('Content-Type', "application/json; charset=utf-8")
+
+    })
+
+    test("Deberia responder con un status 400 si como argumento se recibe por parametro un valor no numerico", async () => {
+        const app = await api.build()
+
+        const res=await request(app).get('/api/v1/bin/a')
+            .expect(400)
+            .expect('Content-Type', "application/json; charset=utf-8")
+
+        expect(res.body).toEqual({ error: 'El parametro ingresado no es un numero'});
+    })
+
+    test("Al recibir como parametro el numero 2 deberia retornar el valor binario 10", async () => {
+        const app = await api.build()
+
+        const res=await request(app).get('/api/v1/bin/2')
+            .expect(200)
+            .expect('Content-Type', "application/json; charset=utf-8")
+
+        expect(res.body.result).toEqual("10");
+    })
 })
