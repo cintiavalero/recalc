@@ -41,6 +41,16 @@ describe("API sum", () => {
             .expect('Content-Type', "application/json; charset=utf-8")
         expect(res.body.result).toBeLessThan(2);
     });
+
+    test("el resultado debería ser 0,3 si se le pasa los argumentos 0,1 y 0,2 ", async () => {
+        const app = await api.build()
+
+        const res=await request(app).get('/api/v1/sum/0.1/0.2')
+            .expect(200)
+            .expect('Content-Type', "application/json; charset=utf-8")
+        expect(res.body.result).toBeCloseTo(0.30,2);
+    });
+
 });
 
 
