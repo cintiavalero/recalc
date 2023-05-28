@@ -171,3 +171,20 @@ describe('Mock Multiplicacion', () => {
     expect(result).toBe(6);
   });
 });
+
+describe('decimalABinario', () => {
+  test('Deberia convertir 3 a 11', () => {
+      const a = 3;
+
+      const result = core.bin(a);
+      expect(result).toBe('11');
+  })
+
+  test('Deberia convertir 2.5 a 10.1', () => {
+      const a = 2.5;
+
+      const result = core.bin(a);
+      expect(result).toBe('10.1');
+  })
+
+})
