@@ -92,4 +92,16 @@ router.delete("/deleteHistory",async function(req,res){
       }
 });
 
+router.get("/sqrt/:a", async function (req, res) {
+    const params = req.params;
+    const a = Number(params.a);
+    if (isNaN(a)) {
+        res.status(400).send({error:'Parametro ingresado no es un número'});
+    } else {
+        const result = core.sqrt(a);
+        await createHistoryEntry({ firstArg: a,result: result, operationName: "SQRT"});
+        return res.send({ result });
+    }
+});
+
 export default router;
