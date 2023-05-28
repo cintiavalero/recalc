@@ -36,10 +36,17 @@ function pow(a) {
 	return a*a; 
 }
 
+function sqrt(a) {
+	if(isNaN(a)){
+		throw Error("El número ingresado por parametro debe ser un valor númerico");
+	}
+	return Math.sqrt(a); 
+}
 export default {
     add: add,
     sub: subtract,
     mul: multiply,
     div: divide,
     pow: pow,
+	sqrt: sqrt
 }
