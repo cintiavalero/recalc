@@ -42,3 +42,17 @@ describe("API sum", () => {
         expect(res.body.result).toBeLessThan(2);
     });
 });
+
+
+describe("API pow", () => {
+    test("Si uno de los parámetros no es un número, el endpoint debe devolver el mensaje de error correspondiente, junto a un status 400",
+     async () => {
+        const app = await api.build()
+
+        const res=await request(app).get('/api/v1/pow/a')
+            .expect(400)
+            .expect('Content-Type', "application/json; charset=utf-8")
+
+        expect(res.body).toEqual({ error: 'La base ingresada por parametro no es un numero' });
+    })
+})
