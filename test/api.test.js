@@ -68,6 +68,18 @@ describe("API pow", () => {
     })
 })
 
+describe("API divide", () => {
+    test("Debería responder con un 400 y error cuando el segundo parámetro es 0", async () => {
+        const app = await api.build()
+
+        const res=await request(app).get('/api/v1/div/10/0')
+            .expect(400)
+            .expect('Content-Type', "application/json; charset=utf-8")
+
+        expect(res.body).toEqual({ error: 'No se puede dividir por cero' });
+    })
+})
+
 describe("API getHistory", () => {
     test("Debería devolver todo el historial", async () => {
         const app = await api.build();
