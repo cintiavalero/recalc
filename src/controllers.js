@@ -76,4 +76,10 @@ router.get("/sum/:a/:b", async function (req, res) {
     }
 });
 
+
+router.get("/getHistory",async function(req,res){
+    const historial=await getAllHistory()
+    return res.send(JSON.stringify(historial))
+});
+
 export default router;
