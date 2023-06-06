@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.3.1] 05-06-2023
+
+### Added
+
+- Dependencia cross-env para correr tests e2e
+
+### Fixed
+
+- Problema al correr tests e2e en Windows
+
+## [1.3.0] 05-06-2023
+
+### Added
+
+- Interfaz básica de la calculadora
+- ESLint para tests estáticos
+- Playwright para tests e2e
+
 ## [1.2.0] 15-05-2023
 
 ### Added
