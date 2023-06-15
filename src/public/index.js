@@ -1,7 +1,7 @@
 const $display = document.querySelector('.display')
 const $buttons = document.querySelector('.buttons')
 
-const operations = ['-','^2'];
+const operations = ['-','^2','*'];
 
 let currentDisplay = "";
 let operation = null;
@@ -24,6 +24,10 @@ $buttons.addEventListener('click', async (e) => {
         if (operation === "^2"){
             result= await calculatePow(firstArg)
         }
+            
+        if (operation === "*") {
+            result = await calculateMul(firstArg, secondArg)
+        }
 
         reset = true;
         return renderDisplay(result);
@@ -45,16 +49,21 @@ $buttons.addEventListener('click', async (e) => {
 async function calculateSub(firstArg, secondArg) {
     const resp = await fetch(`/api/v1/sub/${firstArg}/${secondArg}`)
     const { result } = await resp.json();
-
     return result;
 }
 
 async function calculatePow(firstArg) {
-
     if(firstArg > 100000){
         return "Error: El numero es muy grande"
     }
     const resp = await fetch(`/api/v1/pow/${firstArg}`)
+    const { result } = await resp.json(); 
+    return result;
+}
+
+
+async function calculateMul(firstArg, secondArg) {
+    const resp = await fetch(`/api/v1/mul/${firstArg}/${secondArg}`)
     const { result } = await resp.json();
     return result;
 }
