@@ -115,12 +115,12 @@ test.describe('test', () => {
     });
 
     test('Debería poder realizar una división', async ({ page }) => {
-      
+
       await page.goto('./');
     
-      await page.getByRole('button', { name: '8' }).click();
-      await page.getByRole('button', { name: '/' }).click();
-      await page.getByRole('button', { name: '2' }).click();
+      await page.getByRole('button', { name: '8', exact: true }).click();
+      await page.getByRole('button', { name: '/', exact: true }).click();
+      await page.getByRole('button', { name: '2', exact: true }).click();
     
       const [response] = await Promise.all([
         page.waitForResponse((r) => r.url().includes('/api/v1/div/')),
