@@ -49,8 +49,6 @@ test.describe('test', () => {
     expect(historyEntry.result).toEqual(70)
   });
 
-
-
   test('Deberia poder realizar una potencia de exponente 2 ', async ({ page }) => {
     await page.goto('./');
 
@@ -77,10 +75,9 @@ test.describe('test', () => {
       expect(historyEntry.firstArg).toEqual(3)
       expect(historyEntry.secondArg).toEqual(3)
       expect(historyEntry.result).toEqual(9)
-    }); 
+  }); 
 
-  
-    test('Deberia poder realizar una multiplicación', async ({ page }) => {
+  test('Deberia poder realizar una multiplicación', async ({ page }) => {
 
       await page.goto('./');
   
@@ -112,9 +109,9 @@ test.describe('test', () => {
       expect(historyEntry.firstArg).toEqual(10)
       expect(historyEntry.secondArg).toEqual(3)
       expect(historyEntry.result).toEqual(30)
-    });
+  });
 
-    test('Debería poder realizar una división', async ({ page }) => {
+  test('Debería poder realizar una división', async ({ page }) => {
 
       await page.goto('./');
     
@@ -145,7 +142,41 @@ test.describe('test', () => {
       expect(historyEntry.firstArg).toEqual(8);
       expect(historyEntry.secondArg).toEqual(2);
       expect(historyEntry.result).toEqual(4);
+  });
+
+  test('Debería poder realizar una suma', async ({ page }) => {
+    await page.goto('./');
+
+    await page.getByRole('button', { name: '1' }).click()
+    await page.getByRole('button', { name: '4' }).click()
+    await page.getByRole('button', { name: '+' }).click()
+    await page.getByRole('button', { name: '3' }).click()
+    await page.getByRole('button', { name: '0' }).click()
+
+    const [response] = await Promise.all([
+      page.waitForResponse((r) => r.url().includes('/api/v1/sum/')),
+      page.getByRole('button', { name: '=' }).click()
+    ]);
+
+    const { result } = await response.json();
+    expect(result).toBe(44);
+
+    await expect(page.getByTestId('display')).toHaveValue(/44/)
+
+    const operation = await Operation.findOne({
+      where: {
+        name: "ADD"
+      }
     });
 
-  })
+    const historyEntry = await History.findOne({
+      where: { OperationId: operation.id }
+    })
+
+    expect(historyEntry.firstArg).toEqual(14)
+    expect(historyEntry.secondArg).toEqual(30)
+    expect(historyEntry.result).toEqual(44)
+  });
+
+})
 
