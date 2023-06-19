@@ -128,8 +128,8 @@ async function mostrarHistorial(){
     const historial = await resp.json();
     var operacion;
     var html="";
-    for(i=0;i<historial.length;i++){
-        switch(historial[i]['nombreOperacion']){
+    for(let i=0;i<historial.length;i++){
+        switch(historial[i].nombreOperacion){
 
             case 'ADD':
                 operacion="+"
@@ -153,19 +153,19 @@ async function mostrarHistorial(){
                 operacion="DecimalABinario"
                 break;
         }
-        if(operacion=='^2' || operacion=="RAIZ" || operacion=="DecimalABinario"){
-            html+=historial[i]['primerArgumento']
+        if(operacion==='^2' || operacion==="RAIZ" || operacion==="DecimalABinario"){
+            html+=historial[i].primerArgumento
             html+=operacion
             html+="="
-            html+=historial[i]['resultado']
+            html+=historial[i].resultado
             html+="<br>"
         }
         else{
-            html+=historial[i]['primerArgumento'],
+            html+=historial[i].primerArgumento,
             html+=operacion
-            html+=historial[i]['segundoArgumento'],
+            html+=historial[i].segundoArgumento,
             html+="="
-            html+=historial[i]['resultado'],
+            html+=historial[i].resultado,
             html+="<br>"
         }
     }
