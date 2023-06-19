@@ -127,7 +127,9 @@ test.describe('test', () => {
       expect(historyEntry.result).toEqual(30)
   });
 
-  test('Debería poder realizar una división', async ({ page }) => {
+  test.describe('Deberia poder realizar una division', () => {   
+
+    test('Debería poder realizar la division 8/2, mostrarse en pantalla y guardarse en el historial', async ({ page }) => {
 
       await page.goto('./');
     
@@ -158,6 +160,18 @@ test.describe('test', () => {
       expect(historyEntry.firstArg).toEqual(8);
       expect(historyEntry.secondArg).toEqual(2);
       expect(historyEntry.result).toEqual(4);
+  });
+
+    
+    test('Si el divisor ingresado es 0, me tendría que mostrar un mensaje de error en la pantalla', async ({ page }) => {
+      await page.goto('./');
+
+      await page.getByRole('button', { name: '4' }).click()
+      await page.getByRole('button', { name: '/', exact: true }).click();
+      await page.getByRole('button', { name: '0' }).click()
+      await page.getByRole('button', { name: '=' }).click()
+      await expect(page.getByTestId('display')).toHaveValue("Error: el divisor no puede ser 0")
+    }); 
   });
 
   test('Debería poder realizar una suma', async ({ page }) => {
