@@ -23,15 +23,15 @@ async function loop() {
     
 
     const fn = core[fnName];
-    
+    var result;
     if(fnName === "pow"){
 	const num = await readline.question("Ingrese la base a elevar: ")
-	var result = fn(Number(num))
+	result = fn(Number(num))
 	}
     else{
 	const firstNum = await readline.question("Ingrese el primer número: ")
     const secondNum = await readline.question("Ingrese el segundo número: ")
-    var result = fn(Number(firstNum), Number(secondNum));	
+    result = fn(Number(firstNum), Number(secondNum));	
 	}
 
     console.log(result);
