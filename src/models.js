@@ -67,3 +67,27 @@ export function createTables() {
         Operation.sync({ force: true })
     ]);
 }
+
+export async function getAllHistoryParseado() {
+    var history= await History.findAll();
+    var listaHistoriales=[];
+    var historialParseado;
+    for(var i=0;i<history.length;i++){
+        historialParseado=await parsearHistorial(history[i]);
+        listaHistoriales.unshift(historialParseado);
+    }
+    return listaHistoriales;
+}
+
+async function parsearHistorial(historial){
+    var operation=await Operation.findByPk(historial['OperationId']);
+    var nombreOperacion=operation['name'];
+    var historialParseado={
+        "primerArgumento": historial['firstArg'],
+        "segundoArgumento": historial['secondArg'],
+        "resultado": historial['result'],
+        'nombreOperacion': nombreOperacion
+    }
+    return historialParseado;
+}
+
