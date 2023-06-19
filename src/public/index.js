@@ -18,26 +18,33 @@ $buttons.addEventListener('click', async (e) => {
 
         if (operation === "-") {
             result = await calculateSub(firstArg, secondArg)
+            await mostrarHistorial();
         }
 
         if (operation === "^2"){
             result= await calculatePow(firstArg)
+            await mostrarHistorial();
         }
             
         if (operation === "*") {
             result = await calculateMul(firstArg, secondArg)
+            await mostrarHistorial();
         }
         if (operation === "/") {
             result = await calculateDiv(firstArg, secondArg)
+            await mostrarHistorial();
         }
         if (operation === "+") {
             result = await calculateSum(firstArg, secondArg)
+            await mostrarHistorial();
         }
         if (operation === "raiz") {
             result = await calculateRaiz(firstArg)
+            await mostrarHistorial();
         }
         if (operation === "decimalABinario") {
             result = await convertirDecimalABinario(firstArg)
+            await mostrarHistorial();
         }
 
         reset = true;
@@ -113,5 +120,56 @@ async function convertirDecimalABinario(firstArg) {
 function renderDisplay(chars) {
     currentDisplay = chars;
     $display.value = chars;
+}
+
+
+async function mostrarHistorial(){
+    const resp = await fetch(`/api/v1/getHistoryParseado`)
+    const historial = await resp.json();
+    var operacion;
+    var html="";
+    for(i=0;i<historial.length;i++){
+        switch(historial[i]['nombreOperacion']){
+
+            case 'ADD':
+                operacion="+"
+                break;
+            case 'SUB':
+                operacion="-"
+                break;
+            case 'MUL':
+                operacion="*"
+                break;
+            case 'DIV':
+                operacion="/"
+                break;
+            case 'POW':
+                operacion="^2"
+                break;
+            case 'SQRT':
+                operacion="RAIZ"
+                break;
+            case 'BIN':
+                operacion="DecimalABinario"
+                break;
+        }
+        if(operacion=='^2' || operacion=="RAIZ" || operacion=="DecimalABinario"){
+            html+=historial[i]['primerArgumento']
+            html+=operacion
+            html+="="
+            html+=historial[i]['resultado']
+            html+="<br>"
+        }
+        else{
+            html+=historial[i]['primerArgumento'],
+            html+=operacion
+            html+=historial[i]['segundoArgumento'],
+            html+="="
+            html+=historial[i]['resultado'],
+            html+="<br>"
+        }
+    }
+    document.getElementById('historial').innerHTML=html;
+
 }
 
