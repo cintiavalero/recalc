@@ -49,34 +49,50 @@ test.describe('test', () => {
     expect(historyEntry.result).toEqual(70)
   });
 
-  test('Deberia poder realizar una potencia de exponente 2 ', async ({ page }) => {
-    await page.goto('./');
 
-    await page.getByRole('button', { name: '3' }).click()
-    await page.getByRole('button', { name: '^2' }).click()
+  test.describe('Deberia poder realizar una potencia de exponente 2', () => {   
+    test('Deberia poder realizar una potencia de 3, que se muestre el resultado y que se guarde en el historial', async ({ page }) => {
+      await page.goto('./');
 
-    const [response] = await Promise.all([
-      page.waitForResponse((r) => r.url().includes('/api/v1/pow/')),
-      page.getByRole('button', { name: '=' }).click()
-    ]);
-    const { result } = await response.json();
-    expect(result).toBe(9);
+      await page.getByRole('button', { name: '3' }).click()
+      await page.getByRole('button', { name: '^2' }).click()
 
-    await expect(page.getByTestId('display')).toHaveValue(/9/)
+      const [response] = await Promise.all([
+        page.waitForResponse((r) => r.url().includes('/api/v1/pow/')),
+        page.getByRole('button', { name: '=' }).click()
+      ]);
+      const { result } = await response.json();
+      expect(result).toBe(9);
 
-    const operation = await Operation.findOne({
-      where: {
-        name: "POW"  }
-      });
+      await expect(page.getByTestId('display')).toHaveValue(/9/)
+
+      const operation = await Operation.findOne({
+        where: {
+          name: "POW"  }
+        });
+    
+        const historyEntry = await History.findOne({
+          where: { OperationId: operation.id }
+        })
+        expect(historyEntry.firstArg).toEqual(3)
+        expect(historyEntry.secondArg).toEqual(3)
+        expect(historyEntry.result).toEqual(9)
+    });
+    
+    test('Si quiero hacer la potencia de un numero mayor a 100000, deberia mostrarse un mensaje de error en la calculadora', async ({ page }) => {
+      await page.goto('./');
+      await page.getByRole('button', { name: '1' }).click()
+      await page.getByRole('button', { name: '0' }).click()
+      await page.getByRole('button', { name: '0' }).click()
+      await page.getByRole('button', { name: '0' }).click()
+      await page.getByRole('button', { name: '0' }).click()
+      await page.getByRole('button', { name: '1' }).click()
+      await page.getByRole('button', { name: '^2' }).click()
+      await page.getByRole('button', { name: '=' }).click()
+      await expect(page.getByTestId('display')).toHaveValue("Error: El numero es muy grande")
+    }); 
+  });
   
-      const historyEntry = await History.findOne({
-        where: { OperationId: operation.id }
-      })
-      expect(historyEntry.firstArg).toEqual(3)
-      expect(historyEntry.secondArg).toEqual(3)
-      expect(historyEntry.result).toEqual(9)
-  }); 
-
   test('Deberia poder realizar una multiplicación', async ({ page }) => {
 
       await page.goto('./');
