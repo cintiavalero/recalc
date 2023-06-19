@@ -7,8 +7,6 @@ let currentDisplay = "";
 let operation = null;
 let reset = false;
 
-let unused;
-
 $buttons.addEventListener('click', async (e) => {
     const nextAction = e.target.name
 
@@ -76,7 +74,7 @@ async function calculateMul(firstArg, secondArg) {
 }
 
 async function calculateDiv(firstArg, secondArg) {
-    if(secondArg == 0){
+    if(secondArg === "0"){
         return "Error: el divisor no puede ser 0"
     }
     const resp = await fetch(`/api/v1/div/${firstArg}/${secondArg}`)
@@ -95,4 +93,3 @@ function renderDisplay(chars) {
     $display.value = chars;
 }
 
-function rerender() { }
