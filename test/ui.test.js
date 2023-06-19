@@ -239,5 +239,37 @@ test.describe('test', () => {
     expect(historyEntry.result).toEqual(4)
   });
 
+
+  test('Debería poder realizar una conversion de decimal a binario', async ({ page }) => {
+    await page.goto('./');
+
+    await page.getByRole('button', { name: '1' }).click()
+    await page.getByRole('button', { name: '0' }).click()
+    await page.getByRole('button', { name: '(Dec. A Bin.)' }).click()
+
+    const [response] = await Promise.all([
+      page.waitForResponse((r) => r.url().includes('/api/v1/bin/')),
+      page.getByRole('button', { name: '=' }).click()
+    ]);
+
+    const { result } = await response.json();
+    expect(result).toBe("1010");
+
+    await expect(page.getByTestId('display')).toHaveValue(/1010/)
+
+    const operation = await Operation.findOne({
+      where: {
+        name: "BIN"
+      }
+    });
+
+    const historyEntry = await History.findOne({
+      where: { OperationId: operation.id }
+    })
+
+    expect(historyEntry.firstArg).toEqual(10)
+    expect(historyEntry.result).toEqual(1010)
+  });
+
 })
 
