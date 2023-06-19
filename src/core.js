@@ -20,7 +20,7 @@ function divide(a, b){
 	if(isNaN(a) || isNaN(b)){
 		throw Error("Los números ingresados deben ser valores numéricos");
 	} else {
-		if (b == 0) { 
+		if (b === 0) { 
 			return "No se puede dividir por 0";
 		} else {
 	    	return a/b;
