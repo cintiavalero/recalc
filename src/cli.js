@@ -24,7 +24,7 @@ async function loop() {
 
     const fn = core[fnName];
     
-    if(fnName == "pow"){
+    if(fnName === "pow"){
 	const num = await readline.question("Ingrese la base a elevar: ")
 	
 	var result = fn(Number(num))
