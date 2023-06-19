@@ -16,6 +16,16 @@ body {
     font-family: monospace;
 }
 
+.historial{
+    text-align: center;
+    margin: 1rem auto;
+    padding: 1rem;
+    max-width: 600px;
+    font-family: monospace;
+    background-color:white;
+   
+}
+
 .display {
     height: 3rem;
     margin-bottom: 1rem;
