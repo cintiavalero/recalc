@@ -160,7 +160,7 @@ test.describe('test', () => {
       expect(historyEntry.firstArg).toEqual(8);
       expect(historyEntry.secondArg).toEqual(2);
       expect(historyEntry.result).toEqual(4);
-  });
+    });
 
     
     test('Si el divisor ingresado es 0, me tendría que mostrar un mensaje de error en la pantalla', async ({ page }) => {
@@ -280,5 +280,11 @@ test.describe('test', () => {
     await expect(page.getByTestId('display')).toHaveValue(/5/)
   });
 
+  test('Al presionar C el display debería estar vacío', async ({ page }) => {
+    await page.goto('./');
+    await page.getByRole('button', { name: '5' }).click()
+    await page.getByRole('button', { name: 'c', exact: true }).click();
+    await expect(page.getByTestId('display')).toHaveValue('')
+  });
 })
 
