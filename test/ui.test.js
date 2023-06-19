@@ -286,5 +286,16 @@ test.describe('test', () => {
     await page.getByRole('button', { name: 'c', exact: true }).click();
     await expect(page.getByTestId('display')).toHaveValue('')
   });
+
+  test('Al hacer clic en un elemento que no sea un botón, el display debería mantenerse igual', async ({ page }) => {
+    await page.goto('./');
+    
+    const displayInicial = await page.$eval('.display', (display) => display.value);
+    const buttonsDiv = await page.$('.buttons');  
+    await buttonsDiv.evaluateHandle((div) => div.click());
+    const displayActual = await page.$eval('.display', (display) => display.value);
+    
+    expect(displayActual).toBe(displayInicial);
+  });
 })
 
