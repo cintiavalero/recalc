@@ -7,9 +7,10 @@ let currentDisplay = "";
 let operation = null;
 let reset = false;
 
+// Listener para los botones dentro del contenedor con clase "buttons"
 $buttons.addEventListener('click', async (e) => {
-    const nextAction = e.target.name
-    
+    const nextAction = e.target.tagName === 'BUTTON' ? e.target.name : 'no-button';
+        
     if (nextAction === "=") {
         const [firstArg, secondArg] = currentDisplay.split(operation)
 
@@ -47,16 +48,17 @@ $buttons.addEventListener('click', async (e) => {
         return renderDisplay('');
     }
 
-    if (operations.includes(nextAction)) {
-        operation = nextAction;
-    }
-
-    if (reset) {
-        reset = false;
-        operation = null;
-        renderDisplay(nextAction);
-    } else {
-        renderDisplay(currentDisplay + nextAction);
+    if (nextAction !== "no-button") {
+        if (operations.includes(nextAction)) {
+            operation = nextAction;
+        }
+        if (reset) {
+            reset = false;
+            operation = null;
+            renderDisplay(nextAction);
+        } else {
+            renderDisplay(currentDisplay + nextAction);
+        }
     }
 })
 
