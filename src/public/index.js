@@ -41,7 +41,7 @@ $buttons.addEventListener('click', async (e) => {
         }
 
         reset = true;
-        return renderDisplay(result);
+        return renderDisplay(result || currentDisplay);
     }
 
     if (operations.includes(nextAction)) {
