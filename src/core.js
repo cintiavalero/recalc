@@ -22,11 +22,11 @@ function divide(a, b){
 	} else {
 		if (b === 0) { 
 			return "No se puede dividir por 0";
-		} else {
-	    	return a/b;
 		}
+		return a/b;
 	}
-}
+	}
+
 
 
 function pow(a) {
