@@ -1,7 +1,7 @@
 const $display = document.querySelector('.display')
 const $buttons = document.querySelector('.buttons')
 
-const operations = ['-','^2','*','/', '+',"raiz"];
+const operations = ['-','^2','*','/', '+',"raiz","decimalABinario"];
 
 let currentDisplay = "";
 let operation = null;
@@ -35,6 +35,9 @@ $buttons.addEventListener('click', async (e) => {
         }
         if (operation === "raiz") {
             result = await calculateRaiz(firstArg)
+        }
+        if (operation === "decimalABinario") {
+            result = await convertirDecimalABinario(firstArg)
         }
 
         reset = true;
@@ -93,6 +96,11 @@ async function calculateSum(firstArg, secondArg) {
 
 async function calculateRaiz(firstArg) {
     const resp = await fetch(`/api/v1/sqrt/${firstArg}`)
+    const { result } = await resp.json();
+    return result;
+}
+async function convertirDecimalABinario(firstArg) {
+    const resp = await fetch(`/api/v1/bin/${firstArg}`)
     const { result } = await resp.json();
     return result;
 }
