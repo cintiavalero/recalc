@@ -271,5 +271,14 @@ test.describe('test', () => {
     expect(historyEntry.result).toEqual(1010)
   });
 
+  test('Al presionar = el display no debería cambiar', async ({ page }) => {
+    await page.goto('./');
+
+    await page.getByRole('button', { name: '5' }).click()
+    await page.getByRole('button', { name: '=' }).click()
+
+    await expect(page.getByTestId('display')).toHaveValue(/5/)
+  });
+
 })
 
