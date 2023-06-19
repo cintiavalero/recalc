@@ -112,11 +112,11 @@ router.get("/bin/:a", async function (req, res) {
 
     if (isNaN(a)) {
         return res.status(400).send({error:'El parametro ingresado no es un numero'});
-    } else {
-        const result = core.bin(a);
-        await createHistoryEntry({ firstArg: a,result: result, operationName: "BIN"});
-        return res.send({ result });
-    }
+    } 
+    const result = core.bin(a);
+    await createHistoryEntry({ firstArg: a,result: result, operationName: "BIN"});
+    return res.send({ result });
+    
 });
 
 router.get("/history/:id", async function (req, res) {
