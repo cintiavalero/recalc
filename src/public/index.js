@@ -1,7 +1,7 @@
 const $display = document.querySelector('.display')
 const $buttons = document.querySelector('.buttons')
 
-const operations = ['-','^2','*','/', '+'];
+const operations = ['-','^2','*','/', '+',"raiz"];
 
 let currentDisplay = "";
 let operation = null;
@@ -32,6 +32,9 @@ $buttons.addEventListener('click', async (e) => {
         }
         if (operation === "+") {
             result = await calculateSum(firstArg, secondArg)
+        }
+        if (operation === "raiz") {
+            result = await calculateRaiz(firstArg)
         }
 
         reset = true;
@@ -84,6 +87,12 @@ async function calculateDiv(firstArg, secondArg) {
 
 async function calculateSum(firstArg, secondArg) {
     const resp = await fetch(`/api/v1/sum/${firstArg}/${secondArg}`)
+    const { result } = await resp.json();
+    return result;
+}
+
+async function calculateRaiz(firstArg) {
+    const resp = await fetch(`/api/v1/sqrt/${firstArg}`)
     const { result } = await resp.json();
     return result;
 }
