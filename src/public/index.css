@@ -33,6 +33,7 @@ body {
 }
 
 .rows button {
+    margin: 3px;
     text-transform: uppercase;
     background-color: var(--background-button);
     font-size: 1.5rem;
