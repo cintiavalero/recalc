@@ -80,12 +80,12 @@ export async function getAllHistoryParseado() {
 }
 
 async function parsearHistorial(historial){
-    var operation=await Operation.findByPk(historial['OperationId']);
-    var nombreOperacion=operation['name'];
+    var operation=await Operation.findByPk(historial.OperationId);
+    var nombreOperacion=operation.name;
     var historialParseado={
-        "primerArgumento": historial['firstArg'],
-        "segundoArgumento": historial['secondArg'],
-        "resultado": historial['result'],
+        "primerArgumento": historial.firstArg,
+        "segundoArgumento": historial.secondArg,
+        "resultado": historial.result,
         'nombreOperacion': nombreOperacion
     }
     return historialParseado;
