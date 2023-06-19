@@ -41,7 +41,7 @@ $buttons.addEventListener('click', async (e) => {
         }
 
         reset = true;
-        return renderDisplay(result || currentDisplay);
+        return renderDisplay(result !== null && result !== undefined ? result : currentDisplay);
     }
 
     if (nextAction === "c") {
