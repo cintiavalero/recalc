@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.3.3] 19-06-2023
+### Added
+    -Se realizaron las conexiones del front con la api.
+    -Se agregaron test e2e.
+    -Se le subio en nivel a las reglas del eslint.
+### Fixed
+    Se resolvieron errores detectados por test estatico
 
 ## [1.3.2] 08-06-2023
 
