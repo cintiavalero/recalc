@@ -9,7 +9,7 @@ let reset = false;
 
 $buttons.addEventListener('click', async (e) => {
     const nextAction = e.target.name
-
+    
     if (nextAction === "=") {
         const [firstArg, secondArg] = currentDisplay.split(operation)
 
@@ -26,7 +26,6 @@ $buttons.addEventListener('click', async (e) => {
         if (operation === "*") {
             result = await calculateMul(firstArg, secondArg)
         }
-
         if (operation === "/") {
             result = await calculateDiv(firstArg, secondArg)
         }
@@ -42,6 +41,10 @@ $buttons.addEventListener('click', async (e) => {
 
         reset = true;
         return renderDisplay(result || currentDisplay);
+    }
+
+    if (nextAction === "c") {
+        return renderDisplay('');
     }
 
     if (operations.includes(nextAction)) {
