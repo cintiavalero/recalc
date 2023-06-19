@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect,chromium } from '@playwright/test';
 import { seed } from '../src/seed.js';
 import { Operation, History } from '../src/models.js'
 
@@ -298,4 +298,27 @@ test.describe('test', () => {
     expect(displayActual).toBe(displayInicial);
   });
 })
+
+
+
+test('Verificar si las operaciones se muestran en el historial', async () => {
+  const browser = await chromium.launch();
+  const context = await browser.newContext();
+  const page = await context.newPage();
+
+  await page.goto('localhost:8080');
+
+  await page.getByRole('button', { name: '4' }).click()
+  await page.getByRole('button', { name: '+' }).click()
+  await page.getByRole('button', { name: '3' }).click()
+  await page.getByRole('button', { name: '=' }).click()
+
+  await page.waitForTimeout(1000);
+
+  const historialContent = await page.$eval('#historial', (element) => element.innerHTML);
+
+  expect(historialContent).toContain("4+3=7");
+
+  await browser.close();
+});
 
