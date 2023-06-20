@@ -55,6 +55,11 @@ $buttons.addEventListener('click', async (e) => {
         return renderDisplay('');
     }
 
+    if (nextAction === "CLR"){
+         await eliminarHistorial();
+         await mostrarHistorial();
+    }
+
     if (nextAction !== "no-button") {
         if (operations.includes(nextAction)) {
             operation = nextAction;
@@ -124,8 +129,8 @@ function renderDisplay(chars) {
 
 
 async function mostrarHistorial(){
-    const resp = await fetch(`/api/v1/getHistoryParseado`)
-    const historial = await resp.json();
+    const historialResp = await fetch(`/api/v1/getHistoryParseado`)
+    const historial = await historialResp.json();
     var operacion;
     var html="";
     for(let i=0;i<historial.length;i++){
@@ -171,5 +176,11 @@ async function mostrarHistorial(){
     }
     document.getElementById('historial').innerHTML=html;
 
+}
+
+async function eliminarHistorial() {
+    await fetch(`/api/v1/deleteHistory`, {
+        method: 'DELETE'
+      });
 }
 
