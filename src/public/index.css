@@ -61,9 +61,6 @@ body {
 #mode{
     grid-column: span 2;
 }
-#igual{
-    grid-column: span 2;
-}
 
 
 /* media query */
