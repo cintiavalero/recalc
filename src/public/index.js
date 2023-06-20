@@ -7,6 +7,31 @@ let currentDisplay = "";
 let operation = null;
 let reset = false;
 
+// Listener para los botones del teclado
+document.addEventListener('keydown', (e) => {
+    if (e.target === $display) {
+      return;
+    }
+  
+    const key = e.key;
+    let matchingButton;
+  
+    if (key === "Backspace") {
+      matchingButton = $buttons.querySelector('button[name="c"]');
+    } else {
+      matchingButton = Array.from($buttons.querySelectorAll('button')).find((button) => button.name === key);
+    }
+  
+    if (matchingButton) {
+      matchingButton.click();
+    } else if (key === "Enter") {
+      const equalsButton = $buttons.querySelector('button[name="="]');
+      if (equalsButton) {
+        equalsButton.click();
+      }
+    }
+  });
+
 // Listener para los botones dentro del contenedor con clase "buttons"
 $buttons.addEventListener('click', async (e) => {
     const nextAction = e.target.tagName === 'BUTTON' ? e.target.name : 'no-button';
@@ -61,6 +86,9 @@ $buttons.addEventListener('click', async (e) => {
     }
 
     if (nextAction !== "no-button") {
+        if (operation && operations.includes(nextAction)) {
+            return;
+        }
         if (operations.includes(nextAction)) {
             operation = nextAction;
         }
