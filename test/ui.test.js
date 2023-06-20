@@ -301,7 +301,7 @@ test.describe('test', () => {
 
 
 
-  test('Verificar si las operaciones se muestran en el historial', async () => {
+  test('Verificar si las operaciones se muestran en el historial de la calculadora y se guardan en la base de datos', async () => {
     const browser = await chromium.launch();
     const context = await browser.newContext();
     const page = await context.newPage();
@@ -311,7 +311,10 @@ test.describe('test', () => {
     await page.getByRole('button', { name: '4' }).click()
     await page.getByRole('button', { name: '+' }).click()
     await page.getByRole('button', { name: '3' }).click()
-    await page.getByRole('button', { name: '=' }).click()
+    const [response] = await Promise.all([
+      page.waitForResponse((r) => r.url().includes('/api/v1/sum/')),
+      page.getByRole('button', { name: '=' }).click()
+    ]);
 
     await page.waitForTimeout(1000);
 
@@ -319,9 +322,22 @@ test.describe('test', () => {
 
     expect(historialContent).toContain("4+3=7");
 
+    const operation = await Operation.findOne({
+      where: {
+        name: "ADD"
+      }
+    });
+
+    const historyEntry = await History.findOne({
+      where: { OperationId: operation.id }
+    })
+
+    expect(historyEntry.firstArg).toEqual(4)
+    expect(historyEntry.secondArg).toEqual(3)
+    expect(historyEntry.result).toEqual(7)
+
     await browser.close();
   });
-
 
   test('Verificar si se borran las operaciones del historial', async () => {
     const browser = await chromium.launch();
