@@ -339,7 +339,7 @@ test.describe('test', () => {
     await browser.close();
   });
 
-  test('Verificar si se borran las operaciones del historial', async () => {
+  test('Verificar si se borran las operaciones del historial de la calculadora y se eliminan de la base de datos', async () => {
     const browser = await chromium.launch();
     const context = await browser.newContext();
     const page = await context.newPage();
@@ -349,13 +349,27 @@ test.describe('test', () => {
     await page.getByRole('button', { name: '4' }).click()
     await page.getByRole('button', { name: '+' }).click()
     await page.getByRole('button', { name: '3' }).click()
-    await page.getByRole('button', { name: '=' }).click()
+    const [response] = await Promise.all([
+      page.waitForResponse((r) => r.url().includes('/api/v1/sum/')),
+      page.getByRole('button', { name: '=' }).click()
+    ]);
 
     await page.waitForTimeout(1000);
 
     const historialContent = await page.$eval('#historial', (element) => element.innerHTML);
 
     expect(historialContent).toContain("4+3=7");
+
+    const operation = await Operation.findOne({
+      where: {
+        name: "ADD"
+      }
+    });
+    const historyEntries = await History.findAll({
+      where: { OperationId: operation.id }
+    });
+
+    expect(historyEntries.length).toBeGreaterThan(0);
 
     await page.getByRole('button', { name: 'CLR' }).click()
 
@@ -364,6 +378,12 @@ test.describe('test', () => {
     const historialContentAfterClear = await page.$eval('#historial', (element) => element.innerHTML);
 
     expect(historialContentAfterClear).toContain("");
+
+    const historialDespuesDeBorrar = await History.findAll({
+      where: { OperationId: operation.id }
+    });
+
+    expect(historialDespuesDeBorrar.length).toEqual(0);
 
     await browser.close();
   });
