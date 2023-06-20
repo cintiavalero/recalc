@@ -297,58 +297,92 @@ test.describe('test', () => {
     
     expect(displayActual).toBe(displayInicial);
   });
+
+
+
+
+  test('Verificar si las operaciones se muestran en el historial', async () => {
+    const browser = await chromium.launch();
+    const context = await browser.newContext();
+    const page = await context.newPage();
+
+    await page.goto('localhost:8080');
+
+    await page.getByRole('button', { name: '4' }).click()
+    await page.getByRole('button', { name: '+' }).click()
+    await page.getByRole('button', { name: '3' }).click()
+    await page.getByRole('button', { name: '=' }).click()
+
+    await page.waitForTimeout(1000);
+
+    const historialContent = await page.$eval('#historial', (element) => element.innerHTML);
+
+    expect(historialContent).toContain("4+3=7");
+
+    await browser.close();
+  });
+
+
+  test('Verificar si se borran las operaciones del historial', async () => {
+    const browser = await chromium.launch();
+    const context = await browser.newContext();
+    const page = await context.newPage();
+
+    await page.goto('localhost:8080');
+
+    await page.getByRole('button', { name: '4' }).click()
+    await page.getByRole('button', { name: '+' }).click()
+    await page.getByRole('button', { name: '3' }).click()
+    await page.getByRole('button', { name: '=' }).click()
+
+    await page.waitForTimeout(1000);
+
+    const historialContent = await page.$eval('#historial', (element) => element.innerHTML);
+
+    expect(historialContent).toContain("4+3=7");
+
+    await page.getByRole('button', { name: 'CLR' }).click()
+
+    await page.waitForTimeout(1000);
+
+    const historialContentAfterClear = await page.$eval('#historial', (element) => element.innerHTML);
+
+    expect(historialContentAfterClear).toContain("");
+
+    await browser.close();
+  });
+
+  test('Deberia poder realizar una multiplicación, con datos ingresados por teclado',async({ page})=>{
+    await page.goto('./');
+
+    await page.keyboard.press('9');
+    await page.keyboard.press('*');
+    await page.keyboard.press('4');
+    // await page.keyboard.press('Enter');
+
+    const [response] = await Promise.all([
+      page.waitForResponse((r) => r.url().includes('/api/v1/mul/')),
+      page.keyboard.press('Enter')
+    ]);
+
+    const { result } = await response.json();
+    expect(result).toBe(36);
+
+    await expect(page.getByTestId('display')).toHaveValue(/36/)
+    const operation = await Operation.findOne({
+      where: {
+        name: "MUL"
+      }
+    });
+
+    const historyEntry = await History.findOne({
+      where: { OperationId: operation.id }
+    })
+
+    expect(historyEntry.firstArg).toEqual(9)
+    expect(historyEntry.secondArg).toEqual(4)
+    expect(historyEntry.result).toEqual(36)
+
+  });
+
 })
-
-
-
-test('Verificar si las operaciones se muestran en el historial', async () => {
-  const browser = await chromium.launch();
-  const context = await browser.newContext();
-  const page = await context.newPage();
-
-  await page.goto('localhost:8080');
-
-  await page.getByRole('button', { name: '4' }).click()
-  await page.getByRole('button', { name: '+' }).click()
-  await page.getByRole('button', { name: '3' }).click()
-  await page.getByRole('button', { name: '=' }).click()
-
-  await page.waitForTimeout(1000);
-
-  const historialContent = await page.$eval('#historial', (element) => element.innerHTML);
-
-  expect(historialContent).toContain("4+3=7");
-
-  await browser.close();
-});
-
-
-test('Verificar si se borran las operaciones del historial', async () => {
-  const browser = await chromium.launch();
-  const context = await browser.newContext();
-  const page = await context.newPage();
-
-  await page.goto('localhost:8080');
-
-  await page.getByRole('button', { name: '4' }).click()
-  await page.getByRole('button', { name: '+' }).click()
-  await page.getByRole('button', { name: '3' }).click()
-  await page.getByRole('button', { name: '=' }).click()
-
-  await page.waitForTimeout(1000);
-
-  const historialContent = await page.$eval('#historial', (element) => element.innerHTML);
-
-  expect(historialContent).toContain("4+3=7");
-
-  await page.getByRole('button', { name: 'CLR' }).click()
-
-  await page.waitForTimeout(1000);
-
-  const historialContentAfterClear = await page.$eval('#historial', (element) => element.innerHTML);
-
-  expect(historialContentAfterClear).toContain("");
-
-  await browser.close();
-});
-
