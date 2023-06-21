@@ -42,13 +42,21 @@ $buttons.addEventListener( 'click', async (e) => {
     if (nextAction === "=") {
 
         currentDisplay= currentDisplay.replace(/\(|\)/g, "");
-        console.log(currentDisplay)
 
-        const regex = /(-?\d+|\+|\*|\/|\^2|raiz|decimalABinario)/g;
+        const regex = /(-?\d+|\+|\-|\*|\/|\^2|raiz|decimalABinario)/g;
 
         const elementos = currentDisplay.match(regex);
+        var firstArg,secondArg;
         if(elementos.length===2){
-            var [firstArg,secondArg] = currentDisplay.split(operation)
+            if(currentDisplay.startsWith("-")){
+                operation="-"
+                currentDisplay=currentDisplay.slice(1);
+                [firstArg,secondArg] = currentDisplay.split(operation);
+                firstArg="-"+firstArg
+            }
+            else{
+                [firstArg,secondArg] = currentDisplay.split(operation);
+            }
         }
         else{
             firstArg=elementos[0]
