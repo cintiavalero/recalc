@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.3.4] 21-06-2023
+### Added
+    -Operacion raiz.
+    -Operacion decimal a binario.
+    -Funcionalidad de modo oscuro y modo claro
+    -Se agrega el historial de operaciones en la calculadora y un boton para borrarlo
+    -Se agrego la funcionalidad para escribir desde el teclado
+    -Se agregaron test e2e correspondientes a todo lo anterior. 
+### Fixed
+    -Se resolvieron errores de undefined
+    -Se arreglo la funcionalidad del boton "C"
+    -Se implemento el uso de numeros negativos
+    
 ## [1.3.3] 19-06-2023
 ### Added
     -Se realizaron las conexiones del front con la api.

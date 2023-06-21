@@ -1,25 +1,80 @@
-html {
+:root {
     --background-body: black;
-    --background-button: white;
-    --color-button: black;
-    --border-color-display: white;
+    --background-button: rgb(36, 36, 36);
+    --background-div: rgb(4, 79, 92);
+    --background-display: rgb(37, 37, 37);
+    --border-color-display: rgb(63, 63, 63);
+    --color-button: rgb(241, 241, 241);
+    --color-text: rgb(241, 241, 241);
+}
+.light-mode {
+    --background-body: rgb(236, 236, 236);
+    --background-button: rgb(241, 241, 241);
+    --background-div: rgb(88, 162, 175);
+    --background-display: rgb(241, 241, 241);
+    --border-color-display: rgb(172, 172, 172);
+    --color-button: rgb(36, 36, 36);
+    --color-text: rgb(36, 36, 36);
 }
 
 body {
-    background-color: var(--background-body)
+    background-color: var(--background-body);
+    display: flex;
+    justify-content: center;align-items: center;
+    margin: 0;padding: 0;
 }
 
 .calc {
-    margin: 1rem auto;
-    padding: 1rem;
-    max-width: 700px;
+    background: var(--background-div);
+    margin: 2rem;
+    padding: 2rem;
+    width: 500px;
+    height: 530px;
     font-family: monospace;
+    border-radius: 15px;
+}
+
+.historial{
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 2rem ;
+    padding: 2rem;
+    max-width: 500px;
+    width: 400px;
+    height: 530px;
+    font-family: monospace;
+    border-radius: 15px;
+    background: var(--background-div);
+    color: var(--color-text);
+}
+#historial{
+    margin-top: 2rem;
+    height: 300px;
+    overflow: auto;
+}
+.button-trash{
+    margin-top: 30px;
+    float: right;
+    background-color: rgba(0, 0, 0, 0);
+    color: var(--background-button);
+    font-size: 2.5rem;
+    cursor: pointer;
+    border: none;
+}
+.button-trash:hover{
+    color: rgb(131, 0, 0);
+    transition: 50ms;
+}
+.button-trash:active{
+    color: rgb(85, 0, 0);
 }
 
 .display {
-    height: 3rem;
-    margin-bottom: 1rem;
+    height: 3.5rem;
+    margin-bottom: 1.8rem;
     border: 2px solid var(--border-color-display);
+    background: var(--background-display);
+    color: var(--color-text);
     text-align: right;
     font-size: 2rem;
     padding: 0 1rem;
@@ -28,22 +83,35 @@ body {
 
 .rows {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     grid-template-rows: 75px;
 }
 
 .rows button {
+    margin: 3px;
     text-transform: uppercase;
     background-color: var(--background-button);
     font-size: 1.5rem;
     color: var(--color-button);
+    cursor: pointer;
+}
+#mode{
+    grid-column: span 2;
+}
+#igual{
+    grid-column: span 2;
+    font-size: 2rem;
 }
 
-@media screen and (prefers-color-scheme: light) {
-    html {
-        --background-body: white;
-        --background-button: black;
-        --color-button: white;
-        --border-color-display: black;
+
+/* media query */
+@media (max-width: 1024px) {
+    body{
+        height: auto;
+        flex-direction: column;
+    }
+    .calc {margin-top: 3rem;}
+    .historial {margin-bottom: 8rem;
+        width: 500px;
     }
 }
