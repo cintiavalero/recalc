@@ -421,4 +421,22 @@ test.describe('test', () => {
 
   });
 
+  test('Debería cambiar el background del body al hacer clic en el botón #mode', async () => {
+    const browser = await chromium.launch();
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    
+    await page.goto('./');
+    const modeButton = await page.$('#mode');
+    
+    const backBodyInicial = await page.$eval('body', (element) => getComputedStyle(element));
+    await modeButton.click();
+    await page.waitForTimeout(500);
+    const backBodyActual = await page.$eval('body', (element) => getComputedStyle(element));
+    expect(backBodyActual.backgroundColor).not.toBe(backBodyInicial.backgroundColor);
+    await browser.close();
+    
+    });
+  
+
 })
