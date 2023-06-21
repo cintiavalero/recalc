@@ -43,7 +43,7 @@ $buttons.addEventListener( 'click', async (e) => {
 
         currentDisplay= currentDisplay.replace(/\(|\)/g, "");
 
-        const regex = /(-?\d+|\+|\-|\*|\/|\^2|raiz|decimalABinario)/g;
+        const regex = /(-?\d+|[+\-*/]|^2|raiz|decimalABinario)/g;
 
         const elementos = currentDisplay.match(regex);
         var firstArg,secondArg;
