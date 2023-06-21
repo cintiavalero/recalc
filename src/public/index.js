@@ -48,7 +48,7 @@ $buttons.addEventListener( 'click', async (e) => {
         const elementos = currentDisplay.match(regex);
         var firstArg,secondArg;
         if(elementos.length===2){
-            if(currentDisplay.startsWith("-")){
+            if(currentDisplay.startsWith("-") && !["2","raiz", "decimalABinario"].includes(elementos[1])){
                 operation="-"
                 currentDisplay=currentDisplay.slice(1);
                 [firstArg,secondArg] = currentDisplay.split(operation);
