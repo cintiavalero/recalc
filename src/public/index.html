@@ -14,8 +14,8 @@
         <input type="text" class="display" data-testid="display" readonly>
         <div class="buttons">
             <div class="rows">
-                <button name="parentesisAbrir">(</button>
-                <button name="parentesisCerrar">)</button>
+                <button name="(">(</button>
+                <button name=")">)</button>
                 <button name="decimalABinario">(Dec. A Bin.)</button>
                 <button id="mode" name="claro-oscuro">Modo <i class="fas fa-solid fa-sun"></i></button>
             </div>
@@ -48,8 +48,8 @@
                 <button name="0">0</button>
                 <button name=".">.</button>
                 <button name="c">c</button>
-                <button name="=">=</button>
-                <button id="borrar-historial" name="CLR">CLR</button>
+                <button id="igual" name="=">=</button>
+                <!-- <button id="borrar-historial" name="CLR">CLR</button> -->
             </div>
         </div>
     </div>
@@ -58,11 +58,10 @@
         <div>
             <h2>HISTORIAL</h2>
         </div>
-        <div class="contenedor-historial">
+        <div class="cont-inputs">
             <div id="historial"></div>
-            <div class="opciones-hitorial">
-                <button id="borrar-historial" name="CLR"><i class="fas fa-solid fa-trash fa-sm"></i></button>
             </div>
+            <button id="borrar-historial" class="button-trash" name="CLR">CLR<i class="fas fa-solid fa-trash fa-sm"></i></button>
         </div>
     </div>
 
