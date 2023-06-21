@@ -1,4 +1,4 @@
-html {
+:root {
     --background-body: black;
     --background-button: rgb(36, 36, 36);
     --background-div: rgb(4, 79, 92);
@@ -7,7 +7,15 @@ html {
     --color-button: rgb(241, 241, 241);
     --color-text: rgb(241, 241, 241);
 }
-
+.light-mode {
+    --background-body: rgb(236, 236, 236);
+    --background-button: rgb(241, 241, 241);
+    --background-div: rgb(88, 162, 175);
+    --background-display: rgb(241, 241, 241);
+    --border-color-display: rgb(172, 172, 172);
+    --color-button: rgb(36, 36, 36);
+    --color-text: rgb(36, 36, 36);
+}
 
 body {
     background-color: var(--background-body);
