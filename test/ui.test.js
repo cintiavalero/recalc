@@ -239,6 +239,16 @@ test.describe('test', () => {
     expect(historyEntry.result).toEqual(4)
   });
 
+  test('La raiz cuadrada de un numero negativo, me tendría que mostrar un mensaje de error en la pantalla', async ({ page }) => {
+    await page.goto('./');
+    await page.getByRole('button', { name: '-' }).click()
+    await page.getByRole('button', { name: '1' }).click()
+    await page.getByRole('button', { name: '6' }).click()
+    await page.getByRole('button', { name: 'raiz' }).click()
+    await page.getByRole('button', { name: '=' }).click()
+    await expect(page.getByTestId('display')).toHaveValue("Math error")
+  });
+
 
   test('Debería poder realizar una conversion de decimal a binario', async ({ page }) => {
     await page.goto('./');
