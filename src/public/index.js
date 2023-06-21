@@ -163,6 +163,9 @@ async function calculateSum(firstArg, secondArg) {
 }
 
 async function calculateRaiz(firstArg) {
+    if(firstArg < 0){
+        return "Math error"
+    }
     const resp = await fetch(`/api/v1/sqrt/${firstArg}`)
     const { result } = await resp.json();
     return result;
