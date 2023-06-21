@@ -89,7 +89,7 @@ test.describe('test', () => {
       await page.getByRole('button', { name: '1' }).click()
       await page.getByRole('button', { name: '^2' }).click()
       await page.getByRole('button', { name: '=' }).click()
-      await expect(page.getByTestId('display')).toHaveValue("Error: El numero es muy grande")
+      await expect(page.getByTestId('display')).toHaveValue("Math error")
     }); 
   });
   
@@ -170,7 +170,7 @@ test.describe('test', () => {
       await page.getByRole('button', { name: '/', exact: true }).click();
       await page.getByRole('button', { name: '0' }).click()
       await page.getByRole('button', { name: '=' }).click()
-      await expect(page.getByTestId('display')).toHaveValue("Error: el divisor no puede ser 0")
+      await expect(page.getByTestId('display')).toHaveValue("Math error")
     }); 
   });
 
