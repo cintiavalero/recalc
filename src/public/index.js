@@ -1,5 +1,8 @@
 const $display = document.querySelector('.display')
 const $buttons = document.querySelector('.buttons')
+const modeButton = document.getElementById('mode');
+const borrarHistorial = document.getElementById('borrar-historial');
+const root = document.querySelector(':root');
 
 const operations = ['-','^2','*','/', '+',"raiz","decimalABinario"];
 
@@ -12,7 +15,7 @@ document.addEventListener('keydown', (e) => {
     if (e.target === $display) {
       return;
     }
-  
+    
     const key = e.key;
     let matchingButton;
   
@@ -33,24 +36,21 @@ document.addEventListener('keydown', (e) => {
   });
 
 // Listener para los botones dentro del contenedor con clase "buttons"
-$buttons.addEventListener('click', async (e) => {
+$buttons.addEventListener( 'click', async (e) => {
     const nextAction = e.target.tagName === 'BUTTON' ? e.target.name : 'no-button';
         
     if (nextAction === "=") {
         const [firstArg, secondArg] = currentDisplay.split(operation)
-
         let result;
 
         if (operation === "-") {
             result = await calculateSub(firstArg, secondArg)
             await mostrarHistorial();
         }
-
         if (operation === "^2"){
             result= await calculatePow(firstArg)
             await mostrarHistorial();
-        }
-            
+        } 
         if (operation === "*") {
             result = await calculateMul(firstArg, secondArg)
             await mostrarHistorial();
@@ -71,37 +71,39 @@ $buttons.addEventListener('click', async (e) => {
             result = await convertirDecimalABinario(firstArg)
             await mostrarHistorial();
         }
-
         reset = true;
         return renderDisplay(result !== null && result !== undefined ? result : currentDisplay);
-    }
-
-    if (nextAction === "c") {
+    }else if (nextAction === "c") {
         return renderDisplay('');
+    }else if (nextAction === "claro-oscuro"){
+        cambiarModo();
+    }else {
+        if (nextAction !== "no-button") {
+            if (operation && operations.includes(nextAction)) {
+                return;
+            }
+            if (operations.includes(nextAction)) {
+                operation = nextAction;
+            }
+            if (reset) {
+                reset = false;
+                operation = null;
+                renderDisplay(nextAction);
+            } else {
+                renderDisplay(currentDisplay + nextAction);
+            }
+        }
     }
 
-    if (nextAction === "CLR"){
-         await eliminarHistorial();
-         await mostrarHistorial();
-    }
-
-    if (nextAction !== "no-button") {
-        if (operation && operations.includes(nextAction)) {
-            return;
-        }
-        if (operations.includes(nextAction)) {
-            operation = nextAction;
-        }
-        if (reset) {
-            reset = false;
-            operation = null;
-            renderDisplay(nextAction);
-        } else {
-            renderDisplay(currentDisplay + nextAction);
-        }
-    }
 })
 
+//Listener para borrar el historial
+borrarHistorial.addEventListener( 'click', async () => {
+    await eliminarHistorial()
+    await mostrarHistorial();
+});
+
+//Funciones
 async function calculateSub(firstArg, secondArg) {
     const resp = await fetch(`/api/v1/sub/${firstArg}/${secondArg}`)
     const { result } = await resp.json();
@@ -212,3 +214,12 @@ async function eliminarHistorial() {
       });
 }
 
+async function cambiarModo() {
+    root.classList.toggle('light-mode');
+    if (root.classList.contains('light-mode')) {
+      modeButton.innerHTML  = 'Modo <i class="fas fa-solid fa-moon"></i>'; 
+    } else {
+      modeButton.innerHTML  = 'Modo <i class="fas fa-solid fa-sun"></i>'; 
+    }
+    return;
+}
