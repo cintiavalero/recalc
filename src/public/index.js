@@ -40,7 +40,22 @@ $buttons.addEventListener( 'click', async (e) => {
     const nextAction = e.target.tagName === 'BUTTON' ? e.target.name : 'no-button';
         
     if (nextAction === "=") {
-        const [firstArg, secondArg] = currentDisplay.split(operation)
+
+        currentDisplay= currentDisplay.replace(/\(|\)/g, "");
+        console.log(currentDisplay)
+
+        const regex = /(-?\d+|\+|\*|\/|\^2|raiz|decimalABinario)/g;
+
+        const elementos = currentDisplay.match(regex);
+        if(elementos.length===2){
+            var [firstArg,secondArg] = currentDisplay.split(operation)
+        }
+        else{
+            firstArg=elementos[0]
+            operation=elementos[1]
+            secondArg=elementos[2]
+        }
+
         let result;
 
         if (operation === "-") {
@@ -79,9 +94,7 @@ $buttons.addEventListener( 'click', async (e) => {
         cambiarModo();
     }else {
         if (nextAction !== "no-button") {
-            if (operation && operations.includes(nextAction)) {
-                return;
-            }
+
             if (operations.includes(nextAction)) {
                 operation = nextAction;
             }
