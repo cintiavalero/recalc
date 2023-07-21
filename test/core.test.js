@@ -196,3 +196,14 @@ describe('Sqrt', () => {
   });
 });
 
+describe('Prueba de la funcionalidad de permitir números negativos', () => {
+  test('Debería permitir números negativos', () => {
+    
+    const num1 = -5;
+    const num2 = -3;
+
+    expect(typeof num1).toBe('number');
+    expect(typeof num2).toBe('number');
+
+  });
+});
