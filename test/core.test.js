@@ -198,12 +198,17 @@ describe('Sqrt', () => {
 
 describe('Prueba de la funcionalidad de permitir números negativos', () => {
   test('Debería permitir números negativos', () => {
-    
+
     const num1 = -5;
     const num2 = -3;
 
-    expect(typeof num1).toBe('number');
-    expect(typeof num2).toBe('number');
+    const sumaNegativos = core.add(num1, num2);
+    const multiplicacionNegativos = core.mul(num1, num2);
+    const divisionNegativos = core.div(num1, num2);
+
+    expect(typeof sumaNegativos).toBe('number');
+    expect(typeof multiplicacionNegativos).toBe('number');
+    expect(typeof divisionNegativos).toBe('number');
 
   });
 });
