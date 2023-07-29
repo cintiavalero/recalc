@@ -127,6 +127,27 @@ test.describe('test', () => {
       expect(historyEntry.result).toEqual(30)
   });
 
+  test('Deberia poder realizar una multiplicación entre dos numeros negativos', async ({ page }) => {
+
+    await page.goto('./');
+  
+    await page.getByRole('button', { name: '-' }).click()
+    await page.getByRole('button', { name: '4' }).click()
+    await page.getByRole('button', { name: '*' }).click()
+    await page.getByRole('button', { name: '-' }).click()
+    await page.getByRole('button', { name: '5' }).click()
+  
+    const [response] = await Promise.all([
+      page.waitForResponse((r) => r.url().includes('/api/v1/mul/')),
+      page.getByRole('button', { name: '=' }).click()
+    ]);
+  
+    const { result } = await response.json();
+    expect(result).toBeGreaterThan(0);
+  
+  });
+  
+
   test.describe('Deberia poder realizar una division', () => {   
 
     test('Debería poder realizar la division 8/2, mostrarse en pantalla y guardarse en el historial', async ({ page }) => {
