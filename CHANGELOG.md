@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     -Se agrega el historial de operaciones en la calculadora y un boton para borrarlo
     -Se agrego la funcionalidad para escribir desde el teclado
     -Se agregaron test e2e correspondientes a todo lo anterior. 
+    -Se agregó un test e2e que comprueba si la multiplicación es entre dos números negativos da como resultado uno positivo
+    -Se agregó un test para la funcionalidad para permitir números negativos.
 ### Fixed
     -Se resolvieron errores de undefined
     -Se arreglo la funcionalidad del boton "C"
